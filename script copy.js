@@ -1,9 +1,9 @@
 var myGamePiece;
 var myObstacle;
 
-alert("Le niveau suivant va faire intervenir une boule rouge a gauche et une boule verte a droite. Ces deux boules vont entrer en collision non elastique et vont suivre les lois de conservation du mouvement. Le but est qu'elles tombent sur la plaque noir. Bonne chance!")
+// alert("Le niveau suivant va faire intervenir une boule rouge a gauche et une boule verte a droite. Ces deux boules vont entrer en collision non elastique et vont suivre les lois de conservation du mouvement. Le but est qu'elles tombent sur la plaque noir. Bonne chance!")
 
-var a1 = prompt('masse du cube rouge'); //reponse: 1
+/** var a1 = prompt('masse du cube rouge'); //reponse: 1
 var a = parseFloat(a1, 10);
 var b1 = prompt('masse du cube vert'); //reponse: 5
 var b = parseFloat(b1, 10);
@@ -16,7 +16,16 @@ var g1 = prompt('accélération gravitationelle'); //reponse: 0,5
 var g = parseFloat(g1, 10);
 var gspeed = 0
 var h1 = prompt('vitesse y des cubes'); //reponse: 11,5
-var h = parseFloat(h1, 10)
+var h = parseFloat(h1, 10) **/
+
+var a = 1
+var b = 1
+var c = 1
+var d = -1
+var z = (a*c+b*d)/(a+b)
+var g = 0.01 
+var h =1 
+var gspeed = 0
 
 function startGame() {
     myGamePiece = new component(5, "red", 400, 500, a);
