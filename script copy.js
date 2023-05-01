@@ -24,6 +24,8 @@ let c = parseFloat(document.getElementById("vr").value)
 let d = parseFloat(document.getElementById("vv").value)
 let z = (a*c+b*d)/(a+b)
 let g = parseFloat(document.getElementById("varg").value)
+let cr = parseFloat(document.getElementById("cr").value)
+let cv = parseFloat(document.getElementById("cv").value)
 
 let h = parseFloat(document.getElementById("ycubes").value)
 let vyr = parseFloat(document.getElementById("vyr").value)
@@ -168,19 +170,26 @@ function updateGameArea() {
         let distancerr = Math.sqrt(Math.pow(myGamePiece.x-myObstacle.x,2)+Math.pow(myGamePiece.y-myObstacle.y,2))
         
         let angledeg = Math.atan2(myGamePiece.y -myObstacle.y, myGamePiece.x -myObstacle.x) * 180 / Math.PI
-
-
-
+        let coulomb = 9 * Math.pow(10,9) //10 à la 9
+        let Felec =  (coulomb * cv * cr / Math.pow(distancerr,2))
+        
+        
         myGameArea.clear();
+        
+        ctx = myGameArea.context;
+        ctx.beginPath();
+        ctx.moveTo(myObstacle.x, myObstacle.y);
+        ctx.lineTo(myObstacle.x + Math.cos(Math.PI * angledeg/180)*distancerr, myObstacle.y + Math.sin(Math.PI * angledeg/180)*distancerr);
+        ctx.stroke(); 
         myGamePiece.x += myGamePiece.speedXg;
         myObstacle.x += myObstacle.speedXo;   
         gspeed += g;
         myGamePiece.y += myGamePiece.speedYr + gspeed;
-        myObstacle.y += myObstacle.speedYv + gspeed;
+        myObstacle.y += myObstacle.speedYv + gspeed ;
         myGamePiece.update();
         myObstacle.update();
         myGoal.update();
-        console.log(angledeg)
+        console.log(Felec)
     } if (myGamePiece.crashWith(myGoal)) {
         myGameArea.stop();
         // alert("level complete!");
