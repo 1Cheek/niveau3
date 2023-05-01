@@ -3,6 +3,7 @@ var myObstacle;
 
 // alert("Le niveau suivant va faire intervenir une boule rouge a gauche et une boule verte a droite. Ces deux boules vont entrer en collision non elastique et vont suivre les lois de conservation du mouvement. Le but est qu'elles tombent sur la plaque noir. Bonne chance!")
 
+
 /** var a1 = prompt('masse du cube rouge'); //reponse: 1
 var a = parseFloat(a1, 10);
 var b1 = prompt('masse du cube vert'); //reponse: 5
@@ -14,19 +15,36 @@ var d = parseFloat(d1, 10);
 var z = (a*c+b*d)/(a+b)
 var g1 = prompt('accélération gravitationelle'); //reponse: 0,5
 var g = parseFloat(g1, 10);
-var gspeed = 0
+**/ var gspeed = 0 /**  
 var h1 = prompt('vitesse y des cubes'); //reponse: 11,5
 var h = parseFloat(h1, 10) **/
 
-var a = 1
-var b = 1
-var c = 1
-var d = -1
+var a = 2
+var b = 0.5
+var c = 0.6
+var d = -1.15
 var z = (a*c+b*d)/(a+b)
-var g = 0.01 
-var h =1 
+var g = 0.01
+var h = 1.15
 var gspeed = 0
 
+function restartGame() {
+    
+
+    
+   delete myGameArea
+   delete myObstacle
+   delete myGoal
+   gspeed = 0 
+  myGameArea.clear();
+   myGamePiece = new component(5, "red", 400, 500, a);
+    myObstacle  = new component(5, "green", 600, 500, b);  
+    myGoal = new component(30, "black", 100, 600, 0);
+    updateGameArea()
+  
+    
+    
+}
 function startGame() {
     myGamePiece = new component(5, "red", 400, 500, a);
     myObstacle  = new component(5, "green", 600, 500, b);  
@@ -48,8 +66,8 @@ var myGameArea = {
     canvas : document.getElementById("canvas"),
     start : function() {
         this.context = this.canvas.getContext("2d");
-        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-        this.interval = setInterval(updateGameArea, 20);
+       //  document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+        this.interval = setInterval(updateGameArea, 10);
     },
     clear : function() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -112,6 +130,7 @@ function updateGameArea() {
         myGamePiece.update();
         myObstacle.update();
         myGoal.update();
+        console.log(gspeed)
 
     } else {
         myGameArea.clear();
@@ -123,8 +142,9 @@ function updateGameArea() {
         myGamePiece.update();
         myObstacle.update();
         myGoal.update();
+        console.log(gspeed)
     } if (myGamePiece.crashWith(myGoal)) {
         myGameArea.stop();
-        alert("level complete!");
+        // alert("level complete!");
         }
 }
