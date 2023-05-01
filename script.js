@@ -170,7 +170,7 @@ function updateGameArea() {
         let distancerr = Math.sqrt(Math.pow(myGamePiece.x-myObstacle.x,2)+Math.pow(myGamePiece.y-myObstacle.y,2))
         
         let angledeg = Math.atan2(myGamePiece.y -myObstacle.y, myGamePiece.x -myObstacle.x) * 180 / Math.PI
-        let coulomb = 9 * Math.pow(10,9) //10 à la 9
+        let coulomb = 9 * Math.pow(10,3) //10 à la 9
         let Felec =  (coulomb * cv * cr / Math.pow(distancerr,2))
         
         
@@ -181,17 +181,17 @@ function updateGameArea() {
         ctx.moveTo(myObstacle.x, myObstacle.y);
         ctx.lineTo(myObstacle.x + Math.cos(Math.PI * angledeg/180)*distancerr, myObstacle.y + Math.sin(Math.PI * angledeg/180)*distancerr);
         ctx.stroke(); 
-        myGamePiece.x += myGamePiece.speedXg;
-        myObstacle.x += myObstacle.speedXo;   
+        myGamePiece.x += myGamePiece.speedXg - Math.cos(Math.PI*((-angledeg)+180)/180)*Felec;
+        myObstacle.x += myObstacle.speedXo + Math.cos(Math.PI*((-angledeg)+180)/180)*Felec;   
         gspeed += g;
-        myGamePiece.y += myGamePiece.speedYr + gspeed;
-        myObstacle.y += myObstacle.speedYv + gspeed ;
+        myGamePiece.y += myGamePiece.speedYr + gspeed + Math.sin(Math.PI*((-angledeg)+180)/180)*Felec;
+        myObstacle.y += myObstacle.speedYv + gspeed + Math.sin(Math.PI*((-angledeg)+180)/180)*Felec ;
         myGamePiece.update();
         myObstacle.update();
         myGoal.update();
-        console.log(Felec)
+        console.log(Math.sin(Math.PI*((-angledeg)+180)/180)) // -angledeg+180
     } if (myGamePiece.crashWith(myGoal)) {
         myGameArea.stop();
-        // alert("level complete!ddd");
+        // alert("level complete!dddchanged");
         }
 }
