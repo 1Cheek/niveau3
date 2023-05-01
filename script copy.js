@@ -192,6 +192,6 @@ function updateGameArea() {
         console.log(Felec)
     } if (myGamePiece.crashWith(myGoal)) {
         myGameArea.stop();
-        // alert("level complete!");
+        // alert("level complete!dd");
         }
 }
