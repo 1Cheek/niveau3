@@ -19,7 +19,7 @@ var g = parseFloat(g1, 10);
 var h1 = prompt('vitesse y des cubes'); //reponse: 11,5
 var h = parseFloat(h1, 10) **/
 
-var a = 2
+var a = document.getElementById("mr").value
 var b = 0.5
 var c = 0.6
 var d = -1.15
