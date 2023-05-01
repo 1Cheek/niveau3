@@ -26,7 +26,8 @@ let z = (a*c+b*d)/(a+b)
 let g = parseFloat(document.getElementById("varg").value)
 
 let h = parseFloat(document.getElementById("ycubes").value)
-
+let vyr = parseFloat(document.getElementById("vyr").value)
+let vyv = parseFloat(document.getElementById("vyv").value)
 
 
 let gspeed = 0
@@ -47,6 +48,9 @@ g = parseFloat(document.getElementById("varg").value)
 h = parseFloat(document.getElementById("ycubes").value)
 cr = parseFloat(document.getElementById("cr").value)
 cv = parseFloat(document.getElementById("cv").value)
+
+vyr = parseFloat(document.getElementById("vyr").value)
+vyv = parseFloat(document.getElementById("vyv").value)
 
 
 
@@ -112,6 +116,8 @@ function component(radius, color, x, y, m) {
     this.speedXg = c;
     this.speedXo = d;
     this.speedY = -h;
+    this.speedYr = -vyr;
+    this.speedYv = -vyv
     this.speedF = z; 
     this.x = x;
     this.y = y;    
@@ -169,8 +175,8 @@ function updateGameArea() {
         myGamePiece.x += myGamePiece.speedXg;
         myObstacle.x += myObstacle.speedXo;   
         gspeed += g;
-        myGamePiece.y += myGamePiece.speedY + gspeed;
-        myObstacle.y += myObstacle.speedY + gspeed;
+        myGamePiece.y += myGamePiece.speedYr + gspeed;
+        myObstacle.y += myObstacle.speedYv + gspeed;
         myGamePiece.update();
         myObstacle.update();
         myGoal.update();
