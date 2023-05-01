@@ -15,27 +15,53 @@ var d = parseFloat(d1, 10);
 var z = (a*c+b*d)/(a+b)
 var g1 = prompt('accélération gravitationelle'); //reponse: 0,5
 var g = parseFloat(g1, 10);
-**/ var gspeed = 0 /**  
+**//**  
 var h1 = prompt('vitesse y des cubes'); //reponse: 11,5
 var h = parseFloat(h1, 10) **/
+let a = parseFloat(document.getElementById("mr").value)
+let b = parseFloat(document.getElementById("mv").value)
+let c = parseFloat(document.getElementById("vr").value)
+let d = parseFloat(document.getElementById("vv").value)
+let z = (a*c+b*d)/(a+b)
+let g = parseFloat(document.getElementById("varg").value)
 
-var a = document.getElementById("mr").value
-var b = 0.5
-var c = 0.6
-var d = -1.15
-var z = (a*c+b*d)/(a+b)
-var g = 0.01
-var h = 1.15
-var gspeed = 0
+let h = parseFloat(document.getElementById("ycubes").value)
+
+
+
+let gspeed = 0
+
+
+
+
+
+
 
 function restartGame() {
-    
+a = parseFloat(document.getElementById("mr").value)
+b = parseFloat(document.getElementById("mv").value)
+c = parseFloat(document.getElementById("vr").value)
+d = parseFloat(document.getElementById("vv").value)
+z = (a*c+b*d)/(a+b)
+g = parseFloat(document.getElementById("varg").value)
+h = parseFloat(document.getElementById("ycubes").value)
+cr = parseFloat(document.getElementById("cr").value)
+cv = parseFloat(document.getElementById("cv").value)
+
+
+
+gspeed = 0
+
+
+
+
+
 
     
    delete myGameArea
    delete myObstacle
    delete myGoal
-   gspeed = 0 
+   
   myGameArea.clear();
    myGamePiece = new component(5, "red", 400, 500, a);
     myObstacle  = new component(5, "green", 600, 500, b);  
@@ -125,14 +151,20 @@ function updateGameArea() {
         myGamePiece.x += myGamePiece.speedF;
         myObstacle.x += myObstacle.speedF;
         gspeed += g;
-        myGamePiece.y += myGamePiece.speedY + gspeed;
-        myObstacle.y += myObstacle.speedY + gspeed;
+        myGamePiece.y += (myGamePiece.speedY + gspeed);
+        myObstacle.y += (myObstacle.speedY + gspeed);
         myGamePiece.update();
         myObstacle.update();
         myGoal.update();
-        console.log(gspeed)
+        console.log()
 
     } else {
+        let distancerr = Math.sqrt(Math.pow(myGamePiece.x-myObstacle.x,2)+Math.pow(myGamePiece.y-myObstacle.y,2))
+        
+        let angledeg = Math.atan2(myGamePiece.y -myObstacle.y, myGamePiece.x -myObstacle.x) * 180 / Math.PI
+
+
+
         myGameArea.clear();
         myGamePiece.x += myGamePiece.speedXg;
         myObstacle.x += myObstacle.speedXo;   
@@ -142,7 +174,7 @@ function updateGameArea() {
         myGamePiece.update();
         myObstacle.update();
         myGoal.update();
-        console.log(gspeed)
+        console.log(angledeg)
     } if (myGamePiece.crashWith(myGoal)) {
         myGameArea.stop();
         // alert("level complete!");
