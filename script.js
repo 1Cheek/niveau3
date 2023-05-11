@@ -82,7 +82,7 @@ gspeed = 0
 function startGame() {
     myGamePiece = new component(50, "red", 400, 500, a);
     myObstacle  = new component(5, "green", 600, 500, b);  
-    myGoal = new component(30, "black", 100, 600, 0);
+    myGoal = new component(30, "#7a7a7a", 100, 600, 0);
     myGameArea.start();
 
     myObstacle.speedYv = -vyv

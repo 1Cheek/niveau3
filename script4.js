@@ -38,11 +38,11 @@ let gspeed = 0
 
 function objects() {
     gameObjects = [
-        myGamePiece = new component(100, "yellow", 400, 1450, a,d,vyv),
-        myObstacle  = new component(100, "green", 600, 1450, b,c,vyr),
+        myGamePiece = new component(40, "yellow", 400, 500, a,d,vyv),
+        myObstacle  = new component(40, "green", 800, 500, b,c,vyr),
         
         
-            new component(100, "black", -400, 1450, 1,0,0),
+            new component(40, "black", -400, 1450, 1,0,0),
         ]
 }
 
@@ -236,12 +236,12 @@ function detectCollisions(){
                    
             let speedd = vRelativeVelocity.x * vCollisionNorm.x + vRelativeVelocity.y * vCollisionNorm.y;
             
-
+let perte = 0.90
             
-obj1.vx -= (obj1.m/(obj1.m+obj2.m)*  vCollisionNorm.x);
-obj1.vy -= (obj1.m/(obj1.m+obj2.m)* vCollisionNorm.y);
-obj2.vx += (obj2.m/(obj2.m+obj1.m)*  vCollisionNorm.x);
-obj2.vy += (obj2.m/(obj2.m+obj1.m)* vCollisionNorm.y);
+obj1.vx -= (obj1.m/(obj1.m+obj2.m)*  perte *vCollisionNorm.x);
+obj1.vy -= (obj1.m/(obj1.m+obj2.m)* perte*vCollisionNorm.y);
+obj2.vx += (obj2.m/(obj2.m+obj1.m)*  perte*vCollisionNorm.x);
+obj2.vy += (obj2.m/(obj2.m+obj1.m)* perte* vCollisionNorm.y);
 
 
 
