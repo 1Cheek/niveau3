@@ -147,7 +147,7 @@ function component(radius, color, x, y, m,vx,vy) {
     this.isColliding = false;
     this.update = function() {
         ctx = myGameArea.context;
-        ctx.fillStyle = ctx.fillStyle = this.isColliding?'#ff8080':'#0099b0';;
+        ctx.fillStyle = ctx.fillStyle = this.isColliding?'#ff8080':'#0003b0';;
         ctx.beginPath();
     ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI,false);
     ctx.lineWidth = 2;
