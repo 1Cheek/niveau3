@@ -97,7 +97,7 @@ function startGame() {
     
     quad();
     ctx = myGameArea.context;
-    ctx.scale(0.4 , 0.4)
+    ctx.scale(0.4, 0.4)
     ctx.translate(600, 400);
 }
 
@@ -155,6 +155,8 @@ function component(radius, color, x, y, m,vx,vy) {
       ctx.strokeStyle = 'blue';
       ctx.stroke();
     
+
+    this.vy += g
     this.x += this.vx
     this.y += this.vy
     }
@@ -235,13 +237,19 @@ function detectCollisions(){
             
 
             
-obj1.vx -= (((obj1.vx*(obj1.m-obj2.m)+2*obj2.m*obj1.m)/(obj1.m+obj2.m))* vCollisionNorm.x);
-obj1.vy -= (1 * vCollisionNorm.y);
-obj2.vx += (((obj2.vx*(obj2.m-obj1.m)+2*obj1.m*obj2.m)/(obj2.m+obj1.m)) * vCollisionNorm.x);
-obj2.vy += (1 * vCollisionNorm.y);
+obj1.vx -= (obj1.m/(obj1.m+obj2.m)*  vCollisionNorm.x);
+obj1.vy -= (obj1.m/(obj1.m+obj2.m)* vCollisionNorm.y);
+obj2.vx += (obj2.m/(obj2.m+obj1.m)*  vCollisionNorm.x);
+obj2.vy += (obj2.m/(obj2.m+obj1.m)* vCollisionNorm.y);
 
+
+
+
+//((obj1.vx*(obj1.m-obj2.m)+2*obj2.m*obj1.m)/(obj1.m+obj2.m))
+//((obj2.vx*(obj2.m-obj1.m)+2*obj1.m*obj2.m)/(obj2.m+obj1.m))
 
 console.log(vCollisionNorm.x)
+console.log(vCollisionNorm.y)
             
                 }
             }
@@ -255,11 +263,41 @@ console.log(vCollisionNorm.x)
 
         
 } 
-    detectCollisions();
-    
+detectCollisions();
+
+function detectEdgeCollisions()
+ {
+    let restitution = 0.90
+     let obj;
+     let canvasHeight = 1600
+     for (let i = 0; i < gameObjects.length; i++)
+     {
+         obj = gameObjects[i];
+
+       
+
+         // Check for bottom and top
+         if (obj.y + obj.r >= 1600){
+             obj.vy = -Math.abs(obj.vy) * restitution;
+             
+             console.log('down')
+        
+         }
+     }
+}
+detectEdgeCollisions()
+       
 
 
-    
+
+        ctx.beginPath()
+        ctx.moveTo(0-600,-400);
+        ctx.lineTo(800/0.4 -600,800/0.4-400) ;
+        
+        ctx.stroke()
+
+
+
         ctx.beginPath();
         ctx.moveTo(myObstacle.x, myObstacle.y);
         // ctx.lineTo(myObstacle.x + Math.cos(Math.PI * angledeg/180)*distancerr, myObstacle.y + Math.sin(Math.PI * angledeg/180)*distancerr);
