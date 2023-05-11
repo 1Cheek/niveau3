@@ -69,7 +69,7 @@ gspeed = 0
    delete myGoal
    
   myGameArea.clear();
-   myGamePiece = new component(5, "red", 400, 500, a);
+   myGamePiece = new component(50, "red", 400, 500, a);
     myObstacle  = new component(5, "green", 600, 500, b);  
     myGoal = new component(30, "black", 100, 600, 0);
     updateGameArea()
@@ -133,7 +133,7 @@ function component(radius, color, x, y, m) {
     ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI,false);
     ctx.lineWidth = 2;
     ctx.fill();
-      ctx.strokeStyle = '#000000';
+      ctx.strokeStyle = 'blue';
       ctx.stroke();
     
     
