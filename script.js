@@ -193,11 +193,7 @@ function updateGameArea() {
        
 
 
-        ctx.beginPath();
-        ctx.moveTo(myObstacle.x, myObstacle.y);
-        // ctx.lineTo(myObstacle.x + Math.cos(Math.PI * angledeg/180)*distancerr, myObstacle.y + Math.sin(Math.PI * angledeg/180)*distancerr);
-        ctx.lineTo(myGamePiece.x, myGamePiece.y);
-        ctx.stroke(); 
+        
 
         myGamePiece.x += myGamePiece.speedXg 
         myObstacle.x += myObstacle.speedXo
@@ -214,6 +210,12 @@ function updateGameArea() {
         myGamePiece.speedYr += gspeed + (Math.sin(Math.PI*((-angledeg)+180)/180)*Felec)/myGamePiece.m;
         myObstacle.speedYv += gspeed - (Math.sin(Math.PI*((-angledeg)+180)/180)*Felec)/myObstacle.m;
         
+        ctx.beginPath();
+        ctx.moveTo(myObstacle.x, myObstacle.y);
+        // ctx.lineTo(myObstacle.x + Math.cos(Math.PI * angledeg/180)*distancerr, myObstacle.y + Math.sin(Math.PI * angledeg/180)*distancerr);
+        ctx.lineTo(myGamePiece.x, myGamePiece.y);
+        ctx.stroke(); 
+
         
         myGamePiece.update();
         myObstacle.update();

@@ -71,19 +71,27 @@ gspeed = 0
    delete myGoal
    
   myGameArea.clear();
-   myGamePiece = new component(50, "red", 400, 500, a);
-    myObstacle  = new component(5, "green", 600, 500, b);  
-    myGoal = new component(30, "black", 100, 600, 0);
+  gameObjects = objeee= [
+    myGamePiece = new component(50, "yellow", 400, 500, a,d,vyv),
+    myObstacle  = new component(5, "green", 600, 500, b,c,vyr),
+    myGoal = new component(30, "black", 100, 600, 0,0),
+    myGoal = new component(30, "black", 200, 400, 0,0),
+    ]
     updateGameArea()
   
     
     
 }
 function startGame() {
-    myGamePiece = new component(50, "yellow", 400, 500, a);
-    myObstacle  = new component(5, "green", 600, 500, b);  
-    myGoal = new component(30, "black", 100, 600, 0);
+    gameObjects = [
+        myGamePiece = new component(50, "yellow", 400, 500, a,d,0),
+        myObstacle  = new component(5, "green", 600, 500, b,c,0),
+        myGoal = new component(30, "black", 100, 600, 0,0),
+        myGoal = new component(30, "black", 200, 400, 0,0),
+        ]
+
     myGameArea.start();
+    
 
     myObstacle.speedYv = -vyv
     
@@ -121,7 +129,7 @@ var myGameArea = {
 }
 
 
-function component(radius, color, x, y, m) {
+function component(radius, color, x, y, m,vx,vy) {
     
     this.r= radius
     this.color =color
@@ -134,9 +142,12 @@ function component(radius, color, x, y, m) {
     this.x = x;
     this.y = y;    
     this.m = m;
+    this.vx = vx;
+    this.vy = vy;
+    this.isColliding = false;
     this.update = function() {
         ctx = myGameArea.context;
-        ctx.fillStyle = this.color;
+        ctx.fillStyle = ctx.fillStyle = this.isColliding?'#ff8080':'#0099b0';;
         ctx.beginPath();
     ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI,false);
     ctx.lineWidth = 2;
@@ -144,39 +155,17 @@ function component(radius, color, x, y, m) {
       ctx.strokeStyle = 'blue';
       ctx.stroke();
     
-    
+    this.x += this.vx
+    this.y += this.vy
     }
-    this.crashWith = function(otherobj) {
-        var myleft = this.x-this.r;
-        var myright = this.x+this.r;
-        var mytop = this.y-this.r;
-        var mybottom = this.y + (this.r);
-        var otherleft = otherobj.x-otherobj.r;
-        var otherright = otherobj.x + (otherobj.r);
-        var othertop = otherobj.y-otherobj.r;
-        var otherbottom = otherobj.y + (otherobj.r);
-        var crash = true;
-        if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
-            crash = false;
-        }
-        return crash;
-    }
+  
+  
 }
 
-function updateGameArea() {
-    if (myGamePiece.crashWith(myObstacle)) {
-        myGameArea.clear();
-        myGamePiece.x += myGamePiece.speedF;
-        myObstacle.x += myObstacle.speedF;
-        gspeed += g;
-        myGamePiece.y += (myGamePiece.speedY + gspeed);
-        myObstacle.y += (myObstacle.speedY + gspeed);
-        myGamePiece.update();
-        myObstacle.update();
-        myGoal.update();
-        console.log()
 
-    } else {
+
+function updateGameArea() {
+   
        
 
 
@@ -191,14 +180,92 @@ function updateGameArea() {
         
         ctx = myGameArea.context;
        
+ 
+    for (let i = 0; i < gameObjects.length; i++) {
+        gameObjects[i].update();
+    }
+
+ 
+function circleIntersect(x1, y1, r1, x2, y2, r2) {
+
+        // Calculate the distance between the two circles
+        let squareDistance = (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2);
+    
+        // When the distance is smaller or equal to the sum
+        // of the two radius, the circles touch or overlap
+        
+        return squareDistance <= ((r1 + r2) * (r1 + r2))
+        
+    }
+       
+    
+
+function detectCollisions(){
+        let obj1;
+        let obj2;
+    
+        // Reset collision state of all objects
+        for (let i = 0; i < gameObjects.length; i++) {
+            gameObjects[i].isColliding = false;
+        }
+    
+        // Start checking for collisions
+        for (let i = 0; i < gameObjects.length; i++)
+        {
+            obj1 = gameObjects[i];
+            for (let j = i + 1; j < gameObjects.length; j++)
+            {
+                obj2 = gameObjects[j];
+    
+                // Compare object1 with object2
+                if (circleIntersect(obj1.x, obj1.y, obj1.r, obj2.x, obj2.y, obj2.r)){
+                    obj1.isColliding = true;
+                    obj2.isColliding = true;
+                    
+                    let vCollision = {x: obj2.x - obj1.x, y: obj2.y - obj1.y};
+    
+                    let distance = Math.sqrt((obj2.x-obj1.x)*(obj2.x-obj1.x) + (obj2.y-obj1.y)*(obj2.y-obj1.y));
+                
+                    let vCollisionNorm = {x: vCollision.x / distance, y: vCollision.y / distance};
+                
+                    let vRelativeVelocity = {x: obj1.vx - obj2.vx, y: obj1.vy - obj2.vy};
+                   
+            let speedd = vRelativeVelocity.x * vCollisionNorm.x + vRelativeVelocity.y * vCollisionNorm.y;
+            
+            
+
+            
+obj1.vx -= (((obj1.vx*(obj1.m-obj2.m)+2*obj2.m*obj1.m)/(obj1.m+obj2.m))* vCollisionNorm.x);
+obj1.vy -= (1 * vCollisionNorm.y);
+obj2.vx += (((obj2.vx*(obj2.m-obj1.m)+2*obj1.m*obj2.m)/(obj2.m+obj1.m)) * vCollisionNorm.x);
+obj2.vy += (1 * vCollisionNorm.y);
 
 
+console.log(vCollisionNorm.x)
+            
+                }
+            }
+        }
+
+      
+
+
+
+
+
+        
+} 
+    detectCollisions();
+    
+
+
+    
         ctx.beginPath();
         ctx.moveTo(myObstacle.x, myObstacle.y);
         // ctx.lineTo(myObstacle.x + Math.cos(Math.PI * angledeg/180)*distancerr, myObstacle.y + Math.sin(Math.PI * angledeg/180)*distancerr);
         ctx.lineTo(myGamePiece.x, myGamePiece.y);
         ctx.stroke(); 
-
+  /** 
         myGamePiece.x += myGamePiece.speedXg 
         myObstacle.x += myObstacle.speedXo
         
@@ -215,12 +282,7 @@ function updateGameArea() {
         myObstacle.speedYv += gspeed - (Math.sin(Math.PI*((-angledeg)+180)/180)*Felec)/myObstacle.m;
         
         
-        myGamePiece.update();
-        myObstacle.update();
-        myGoal.update();
-        console.log(myGamePiece.m) // -angledeg+180
-    } if (myGamePiece.crashWith(myGoal)) {
-        myGameArea.stop();
-        // alert("level complete!dddchanged");
-        }
-}
+        console.log() // -angledeg+180
+    **/
+    } 
+
