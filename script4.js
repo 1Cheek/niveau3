@@ -36,7 +36,15 @@ let vyv = parseFloat(document.getElementById("vyv").value)
 
 let gspeed = 0
 
-
+function objects() {
+    gameObjects = [
+        myGamePiece = new component(100, "yellow", 400, 1450, a,d,vyv),
+        myObstacle  = new component(100, "green", 600, 1450, b,c,vyr),
+        
+        
+            new component(100, "black", -400, 1450, 1,0,0),
+        ]
+}
 
 
 
@@ -60,6 +68,7 @@ myObstacle.speedYv = -vyv
 
 gspeed = 0
 
+objects()
 
 
 
@@ -71,25 +80,14 @@ gspeed = 0
    delete myGoal
    
   myGameArea.clear();
-  gameObjects = objeee= [
-    myGamePiece = new component(50, "yellow", 400, 500, a,d,vyv),
-    myObstacle  = new component(5, "green", 600, 500, b,c,vyr),
-    myGoal = new component(30, "black", 100, 600, 0,0),
-    myGoal = new component(30, "black", 200, 400, 0,0),
-    ]
+  
     updateGameArea()
   
     
     
 }
 function startGame() {
-    gameObjects = [
-        myGamePiece = new component(50, "yellow", 400, 500, a,d,0),
-        myObstacle  = new component(5, "green", 600, 500, b,c,0),
-        myGoal = new component(30, "black", 100, 600, 0,0),
-        myGoal = new component(30, "black", 200, 400, 0,0),
-        ]
-
+    objects()
     myGameArea.start();
     
 
@@ -147,7 +145,7 @@ function component(radius, color, x, y, m,vx,vy) {
     this.isColliding = false;
     this.update = function() {
         ctx = myGameArea.context;
-        ctx.fillStyle = ctx.fillStyle = this.isColliding?'#ff8080':'#0003b0';;
+        ctx.fillStyle = ctx.fillStyle = this.isColliding?'#ff8080':this.color;;
         ctx.beginPath();
     ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI,false);
     ctx.lineWidth = 2;
@@ -195,8 +193,12 @@ function circleIntersect(x1, y1, r1, x2, y2, r2) {
     
         // When the distance is smaller or equal to the sum
         // of the two radius, the circles touch or overlap
+        if (squareDistance <= ((r1 + r2) * (r1 + r2))) {
+            console.log('yes')
+            return squareDistance
+            
+        }
         
-        return squareDistance <= ((r1 + r2) * (r1 + r2))
         
     }
        
@@ -234,7 +236,6 @@ function detectCollisions(){
                    
             let speedd = vRelativeVelocity.x * vCollisionNorm.x + vRelativeVelocity.y * vCollisionNorm.y;
             
-            
 
             
 obj1.vx -= (obj1.m/(obj1.m+obj2.m)*  vCollisionNorm.x);
@@ -248,9 +249,7 @@ obj2.vy += (obj2.m/(obj2.m+obj1.m)* vCollisionNorm.y);
 //((obj1.vx*(obj1.m-obj2.m)+2*obj2.m*obj1.m)/(obj1.m+obj2.m))
 //((obj2.vx*(obj2.m-obj1.m)+2*obj1.m*obj2.m)/(obj2.m+obj1.m))
 
-console.log(vCollisionNorm.x)
-console.log(vCollisionNorm.y)
-            
+
                 }
             }
         }
@@ -269,7 +268,7 @@ function detectEdgeCollisions()
  {
     let restitution = 0.90
      let obj;
-     let canvasHeight = 1600
+     
      for (let i = 0; i < gameObjects.length; i++)
      {
          obj = gameObjects[i];
@@ -280,11 +279,31 @@ function detectEdgeCollisions()
          if (obj.y + obj.r >= 1600){
              obj.vy = -Math.abs(obj.vy) * restitution;
              
-             console.log('down')
-        
+             
+          }
+          if (obj.y - obj.r <= -400){
+            obj.vy = Math.abs(obj.vy) * restitution;
+            
+            
          }
+         if (obj.x + obj.r >= 1400){
+            obj.vx = -Math.abs(obj.vx) * restitution;
+            
+            
+         }
+         if (obj.x - obj.r <= -600){
+            obj.vx = Math.abs(obj.vx) * restitution;
+            
+            
+         }
+         
+    if (obj.y + obj.r >= 1600) {
+        obj.y = 1600-obj.r
+    }
+    
+   }
      }
-}
+
 detectEdgeCollisions()
        
 
@@ -292,7 +311,7 @@ detectEdgeCollisions()
 
         ctx.beginPath()
         ctx.moveTo(0-600,-400);
-        ctx.lineTo(800/0.4 -600,800/0.4-400) ;
+        //ctx.lineTo(800/0.4 -600,800/0.4-400) ;
         
         ctx.stroke()
 

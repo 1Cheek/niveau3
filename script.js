@@ -178,7 +178,7 @@ function updateGameArea() {
 
     } else {
        
-
+       
 
         let distancerr = Math.sqrt(Math.pow(myGamePiece.x-myObstacle.x,2)+Math.pow(myGamePiece.y-myObstacle.y,2))
         
@@ -221,8 +221,9 @@ function updateGameArea() {
         myObstacle.update();
         myGoal.update();
         console.log(myGamePiece.m) // -angledeg+180
-    } if (myGamePiece.crashWith(myGoal)) {
-        myGameArea.stop();
-        // alert("level complete!dddchanged");
-        }
+
+        
+    } 
+
+
 }
