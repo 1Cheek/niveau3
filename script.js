@@ -1,3 +1,5 @@
+
+
 var myGamePiece;
 var myObstacle;
 
@@ -84,7 +86,11 @@ function startGame() {
     myGameArea.start();
 
     myObstacle.speedYv = -vyv
+    
     quad();
+    ctx = myGameArea.context;
+    ctx.scale(0.4 , 0.4)
+    ctx.translate(600, 400);
 }
 
 const img = document.createElement("img");
@@ -92,7 +98,8 @@ img.src="https://media.istockphoto.com/id/1060000540/fr/vectoriel/sans-couture-p
 
 function quad() {
     let adb = myGameArea.context;
-    adb.drawImage(img,0,0,1000,1000);
+    
+   
   }
   // chaque carre est de 25 pixel par 25 pixel
 
@@ -102,9 +109,10 @@ var myGameArea = {
         this.context = this.canvas.getContext("2d");
        //  document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.interval = setInterval(updateGameArea, 10);
+        
     },
     clear : function() {
-        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.context.clearRect(-900, -900, 10000, 10000);
         quad();
     },
     stop : function() {
@@ -169,6 +177,9 @@ function updateGameArea() {
         console.log()
 
     } else {
+       
+
+
         let distancerr = Math.sqrt(Math.pow(myGamePiece.x-myObstacle.x,2)+Math.pow(myGamePiece.y-myObstacle.y,2))
         
         let angledeg = Math.atan2(myGamePiece.y -myObstacle.y, myGamePiece.x -myObstacle.x) * 180 / Math.PI
@@ -179,9 +190,13 @@ function updateGameArea() {
         myGameArea.clear();
         
         ctx = myGameArea.context;
+       
+
+
         ctx.beginPath();
         ctx.moveTo(myObstacle.x, myObstacle.y);
-        ctx.lineTo(myObstacle.x + Math.cos(Math.PI * angledeg/180)*distancerr, myObstacle.y + Math.sin(Math.PI * angledeg/180)*distancerr);
+        // ctx.lineTo(myObstacle.x + Math.cos(Math.PI * angledeg/180)*distancerr, myObstacle.y + Math.sin(Math.PI * angledeg/180)*distancerr);
+        ctx.lineTo(myGamePiece.x, myGamePiece.y);
         ctx.stroke(); 
 
         myGamePiece.x += myGamePiece.speedXg 
