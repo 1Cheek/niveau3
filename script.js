@@ -52,9 +52,9 @@ cr = parseFloat(document.getElementById("cr").value)
 cv = parseFloat(document.getElementById("cv").value)
 
 vyr = parseFloat(document.getElementById("vyr").value)
-vyv = parseFloat(document.getElementById("vyv").value)
+vyv = parseFloat(document.getElementById("vyv").value)  
 
-
+myObstacle.speedYv = -vyv 
 
 gspeed = 0
 
@@ -78,10 +78,12 @@ gspeed = 0
     
 }
 function startGame() {
-    myGamePiece = new component(5, "red", 400, 500, a);
+    myGamePiece = new component(50, "red", 400, 500, a);
     myObstacle  = new component(5, "green", 600, 500, b);  
     myGoal = new component(30, "black", 100, 600, 0);
     myGameArea.start();
+
+    myObstacle.speedYv = -vyv
     quad();
 }
 
@@ -181,15 +183,27 @@ function updateGameArea() {
         ctx.moveTo(myObstacle.x, myObstacle.y);
         ctx.lineTo(myObstacle.x + Math.cos(Math.PI * angledeg/180)*distancerr, myObstacle.y + Math.sin(Math.PI * angledeg/180)*distancerr);
         ctx.stroke(); 
-        myGamePiece.x += myGamePiece.speedXg - Math.cos(Math.PI*((-angledeg)+180)/180)*Felec;
-        myObstacle.x += myObstacle.speedXo + Math.cos(Math.PI*((-angledeg)+180)/180)*Felec;   
+
+        myGamePiece.x += myGamePiece.speedXg 
+        myObstacle.x += myObstacle.speedXo
+        
         gspeed += g;
-        myGamePiece.y += myGamePiece.speedYr + gspeed + Math.sin(Math.PI*((-angledeg)+180)/180)*Felec;
-        myObstacle.y += myObstacle.speedYv + gspeed + Math.sin(Math.PI*((-angledeg)+180)/180)*Felec ;
+
+
+        myGamePiece.speedXg += -(Math.cos(Math.PI*((-angledeg)+180)/180)*Felec)/myGamePiece.m;
+        myObstacle.speedXo += (Math.cos(Math.PI*((-angledeg)+180)/180)*Felec)/myObstacle.m; 
+        
+        myGamePiece.y += myGamePiece.speedYr 
+        myObstacle.y += myObstacle.speedYv 
+        
+        myGamePiece.speedYr += gspeed + (Math.sin(Math.PI*((-angledeg)+180)/180)*Felec)/myGamePiece.m;
+        myObstacle.speedYv += gspeed - (Math.sin(Math.PI*((-angledeg)+180)/180)*Felec)/myObstacle.m;
+        
+        
         myGamePiece.update();
         myObstacle.update();
         myGoal.update();
-        console.log(Math.sin(Math.PI*((-angledeg)+180)/180)) // -angledeg+180
+        console.log(myGamePiece.m) // -angledeg+180
     } if (myGamePiece.crashWith(myGoal)) {
         myGameArea.stop();
         // alert("level complete!dddchanged");
